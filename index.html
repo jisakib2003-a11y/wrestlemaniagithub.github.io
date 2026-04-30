@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WrestleMania 42 – Las Vegas 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --gold:   #f5c842;
+      --red:    #c0152a;
+      --dark:   #0a0a0b;
+      --darker: #060608;
+      --mid:    #111118;
+      --light:  #e8e0d0;
+      --muted:  #8a8070;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--darker); color: var(--light); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      overflow: hidden;
+      padding-bottom: 6rem;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 65% 30%, rgba(192,21,42,0.6) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 50% at 20% 70%, rgba(245,200,66,0.18) 0%, transparent 65%),
+        linear-gradient(175deg, #1a0008 0%, #0a0a0b 50%, #050506 100%);
+      animation: bgPulse 8s ease-in-out infinite alternate;
+    }
+    @keyframes bgPulse {
+      from { filter: brightness(1); }
+      to   { filter: brightness(1.18); }
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, rgba(6,6,8,0.2) 0%, rgba(6,6,8,0) 30%, rgba(6,6,8,0.75) 70%, rgba(6,6,8,1) 100%);
+    }
+    .hero-sparks {
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 20% 30%, rgba(245,200,66,0.7) 0%, transparent 0%),
+        radial-gradient(1px 1px at 80% 15%, rgba(255,255,255,0.5) 0%, transparent 0%),
+        radial-gradient(1.5px 1.5px at 50% 60%, rgba(245,200,66,0.4) 0%, transparent 0%),
+        radial-gradient(1px 1px at 35% 80%, rgba(255,100,100,0.6) 0%, transparent 0%),
+        radial-gradient(1px 1px at 70% 45%, rgba(255,255,255,0.4) 0%, transparent 0%);
+      animation: sparkle 4s ease-in-out infinite alternate;
+    }
+    @keyframes sparkle {
+      from { opacity: 0.4; }
+      to   { opacity: 1; }
+    }
+    .hero-content { position: relative; z-index: 2; text-align: center; }
+    .wm-label {
+      display: inline-block; letter-spacing: 0.35em; font-size: 0.75rem;
+      font-weight: 700; text-transform: uppercase; color: var(--gold);
+      border: 1px solid rgba(245,200,66,0.4); padding: 0.35em 1.2em;
+      margin-bottom: 1.4rem; animation: fadeUp 0.8s ease both;
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(5rem, 14vw, 12rem);
+      line-height: 0.88; letter-spacing: 0.02em; color: #fff;
+      animation: fadeUp 0.9s 0.15s ease both, glowPulse 3s 1s ease-in-out infinite;
+    }
+    .hero-title span {
+      display: block; color: var(--gold); font-size: 0.45em;
+      letter-spacing: 0.12em;
+    }
+    @keyframes glowPulse {
+      0%,100% { text-shadow: 0 0 60px rgba(245,200,66,0.35), 0 4px 0 rgba(0,0,0,0.8); }
+      50%      { text-shadow: 0 0 100px rgba(245,200,66,0.7), 0 0 40px rgba(192,21,42,0.55), 0 4px 0 rgba(0,0,0,0.8); }
+    }
+    .hero-meta {
+      margin-top: 1.8rem; display: flex; gap: 2rem;
+      justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .hero-meta-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.9rem; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--light); opacity: 0.85;
+    }
+    .hero-meta-item .icon { color: var(--gold); }
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      z-index: 3; display: flex; flex-direction: column; align-items: center;
+      gap: 0.4rem; font-size: 0.65rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--muted);
+      animation: fadeUp 1.2s 0.6s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 2.5rem;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: scrollPulse 2s ease-in-out infinite;
+    }
+    @keyframes scrollPulse {
+      0%,100% { opacity: 0.3; } 50% { opacity: 1; }
+    }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SHARED SECTION ── */
+    .section-wrap { padding: 5rem 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .alt-bg { background: var(--mid); }
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.4em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      line-height: 1; letter-spacing: 0.02em; color: #fff; margin-bottom: 2rem;
+    }
+    .divider {
+      width: 4rem; height: 3px;
+      background: linear-gradient(to right, var(--red), var(--gold));
+      margin-bottom: 2.5rem; border-radius: 2px;
+    }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* ── ABOUT ── */
+    .about-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 2.5rem; align-items: start;
+    }
+    @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+    .about-text { font-size: 1.05rem; line-height: 1.85; color: #b8b0a0; }
+    .about-img {
+      width: 100%; border-radius: 6px;
+      border: 2px solid rgba(245,200,66,0.2); display: block;
+      object-fit: cover; max-height: 300px;
+      filter: brightness(0.9) saturate(1.15);
+      transition: filter 0.4s ease;
+    }
+    .about-img:hover { filter: brightness(1) saturate(1.3); }
+
+    /* ── INFO CARDS ── */
+    .info-cards {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem; margin-top: 2rem;
+    }
+    .info-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(245,200,66,0.12);
+      border-radius: 6px; padding: 1.5rem 1.2rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .info-card:hover { border-color: rgba(245,200,66,0.45); background: rgba(245,200,66,0.05); }
+    .info-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: linear-gradient(to right, var(--red), var(--gold));
+    }
+    .info-card-icon { font-size: 1.6rem; margin-bottom: 0.6rem; }
+    .info-card-label { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.3rem; }
+    .info-card-value { font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; color: #fff; letter-spacing: 0.04em; }
+
+    /* ── MATCHES ── */
+    .nights { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
+    @media (max-width: 750px) { .nights { grid-template-columns: 1fr; } }
+    .night-card {
+      background: rgba(255,255,255,0.025);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px; overflow: hidden;
+    }
+    .night-header {
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, rgba(192,21,42,0.6), rgba(245,200,66,0.15));
+      font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem;
+      letter-spacing: 0.06em; display: flex; align-items: center;
+      gap: 0.6rem; color: #fff;
+      border-bottom: 1px solid rgba(245,200,66,0.2);
+    }
+    .match-list { padding: 1rem 1.5rem 1.5rem; }
+    .match-item { padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .match-item:last-child { border-bottom: none; }
+    .match-type { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.35rem; }
+    .match-fighters { font-size: 0.95rem; font-weight: 600; color: var(--light); margin-bottom: 0.5rem; }
+    .match-vs { color: var(--muted); font-weight: 300; margin: 0 0.35rem; }
+    .match-winner {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(245,200,66,0.1); border: 1px solid rgba(245,200,66,0.3);
+      border-radius: 20px; padding: 0.2em 0.75em;
+      font-size: 0.78rem; font-weight: 700; color: var(--gold);
+    }
+
+    /* ── GALLERY ── */
+    .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-top: 2.5rem; }
+    @media (max-width: 600px) { .gallery { grid-template-columns: 1fr; } }
+    .gallery-item { position: relative; border-radius: 6px; overflow: hidden; border: 1px solid rgba(245,200,66,0.12); }
+    .gallery-item img {
+      width: 100%; display: block; object-fit: cover; height: 260px;
+      transition: transform 0.5s ease, filter 0.5s ease;
+      filter: brightness(0.85) saturate(1.1);
+    }
+    .gallery-item:hover img { transform: scale(1.04); filter: brightness(1) saturate(1.3); }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0.75rem 1rem;
+      background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gold);
+    }
+
+    /* ── AUTHOR ── */
+    .author-card {
+      display: flex; gap: 2.5rem; align-items: center;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(245,200,66,0.2);
+      border-radius: 12px; padding: 2.5rem 2.8rem;
+      position: relative; overflow: hidden; flex-wrap: wrap;
+    }
+    .author-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+    .author-avatar {
+      width: 110px; height: 110px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--red), var(--gold));
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: #fff;
+      flex-shrink: 0; border: 3px solid rgba(245,200,66,0.35);
+      box-shadow: 0 0 30px rgba(245,200,66,0.15);
+    }
+    .author-info { flex: 1; min-width: 220px; }
+    .author-role { font-size: 0.68rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .author-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 0.03em; color: #fff; margin-bottom: 1.2rem; }
+    .author-links { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+    .author-link {
+      display: inline-flex; align-items: center; gap: 0.45rem;
+      padding: 0.5em 1.1em; border-radius: 4px;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .author-link.resume { background: rgba(245,200,66,0.12); border: 1px solid rgba(245,200,66,0.4); color: var(--gold); }
+    .author-link.resume:hover { background: var(--gold); color: var(--darker); }
+    .author-link.github { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; }
+    .author-link.github:hover { background: #fff; color: var(--darker); }
+    .author-link.linkedin { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); color: var(--muted); pointer-events: none; opacity: 0.5; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center; padding: 2.5rem 1rem;
+      font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--muted); border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer span { color: var(--gold); }
+    code { background: rgba(245,200,66,0.1); color: var(--gold); padding: 0.1em 0.4em; border-radius: 3px; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ HERO ═══ -->
+  <header class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-sparks"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="wm-label">WWE Premium Live Event</div>
+      <h1 class="hero-title">
+        WrestleMania
+        <span>Vegas · XLII</span>
+      </h1>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span class="icon">📅</span> April 18 &amp; 19, 2026</div>
+        <div class="hero-meta-item"><span class="icon">📍</span> Allegiant Stadium, Las Vegas</div>
+        <div class="hero-meta-item"><span class="icon">🎤</span> Host: John Cena</div>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </header>
+
+
+  <!-- ═══ ABOUT ═══ -->
+  <div class="section-wrap">
+    <p class="section-eyebrow reveal">01 — About the Event</p>
+    <h2 class="section-title reveal">The Showcase<br>of the Immortals</h2>
+    <div class="divider reveal"></div>
+    <div class="about-grid reveal">
+      <p class="about-text">
+        WrestleMania is WWE's crown jewel — the annual extravaganza often dubbed
+        the <em>"Super Bowl of Sports Entertainment."</em> Each year it brings together
+        the biggest rivalries, championship showdowns, celebrity appearances, and the
+        unforgettable story conclusions that fans have waited all year to witness.
+        <br><br>
+        WrestleMania 42 returned to the glittering spectacle of Las Vegas, hosted
+        across two electrifying nights at Allegiant Stadium — with John Cena commanding
+        the stage as host in what became a landmark chapter in WWE history.
+      </p>
+      <img
+        class="about-img"
+        src="wrestlemania-crowd.jpg"
+        alt="WrestleMania 42 crowd at Allegiant Stadium"
+        onerror="this.style.background='linear-gradient(135deg,#1a0008,#0a0a0b)'; this.style.minHeight='200px';"
+      />
+    </div>
+  </div>
+
+
+  <!-- ═══ EVENT INFO ═══ -->
+  <div class="section-wrap" style="padding-top: 0;">
+    <p class="section-eyebrow reveal">02 — Event Details</p>
+    <h2 class="section-title reveal">When &amp; Where</h2>
+    <div class="divider reveal"></div>
+    <div class="info-cards reveal">
+      <div class="info-card">
+        <div class="info-card-icon">📅</div>
+        <div class="info-card-label">Dates</div>
+        <div class="info-card-value">Apr 18–19, 2026</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🌆</div>
+        <div class="info-card-label">City</div>
+        <div class="info-card-value">Las Vegas, NV</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🏟️</div>
+        <div class="info-card-label">Venue</div>
+        <div class="info-card-value">Allegiant Stadium</div>
+      </div>
+      <div class="info-card">
+        <div class="info-card-icon">🎤</div>
+        <div class="info-card-label">Host</div>
+        <div class="info-card-value">John Cena</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ MATCHES ═══ -->
+  <div class="alt-bg">
+    <div class="section-wrap">
+      <p class="section-eyebrow reveal">03 — Complete Card</p>
+      <h2 class="section-title reveal">Matches &amp; Results</h2>
+      <div class="divider reveal"></div>
+      <div class="nights">
+        <!-- NIGHT 1 -->
+        <div class="night-card reveal">
+          <div class="night-header">🌙 Night One</div>
+          <div class="match-list">
+            <div class="match-item">
+              <div class="match-type">World Heavyweight Championship</div>
+              <div class="match-fighters">CM Punk <span class="match-vs">vs</span> Roman Reigns</div>
+              <div class="match-winner">🏆 CM Punk</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">Women's Championship</div>
+              <div class="match-fighters">Rhea Ripley <span class="match-vs">vs</span> Jade Cargill</div>
+              <div class="match-winner">🏆 Rhea Ripley</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">Tag Team Championship</div>
+              <div class="match-fighters">The Judgment Day</div>
+              <div class="match-winner">🏆 The Judgment Day</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">Singles Match</div>
+              <div class="match-fighters">Logan Paul <span class="match-vs">vs</span> LA Knight</div>
+              <div class="match-winner">🏆 LA Knight</div>
+            </div>
+          </div>
+        </div>
+        <!-- NIGHT 2 -->
+        <div class="night-card reveal">
+          <div class="night-header">🌙 Night Two</div>
+          <div class="match-list">
+            <div class="match-item">
+              <div class="match-type">Undisputed WWE Championship · Main Event</div>
+              <div class="match-fighters">Cody Rhodes <span class="match-vs">vs</span> Randy Orton</div>
+              <div class="match-winner">🏆 Cody Rhodes</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">Women's Match</div>
+              <div class="match-fighters">Liv Morgan <span class="match-vs">vs</span> Stephanie Vaquer</div>
+              <div class="match-winner">🏆 Liv Morgan</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">United States Championship</div>
+              <div class="match-fighters">Austin Theory</div>
+              <div class="match-winner">🏆 Austin Theory</div>
+            </div>
+            <div class="match-item">
+              <div class="match-type">Intercontinental Championship</div>
+              <div class="match-fighters">Gunther</div>
+              <div class="match-winner">🏆 Gunther</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ GALLERY ═══ -->
+  <div class="section-wrap">
+    <p class="section-eyebrow reveal">04 — Gallery</p>
+    <h2 class="section-title reveal">Inside Allegiant Stadium</h2>
+    <div class="divider reveal"></div>
+    <div class="gallery reveal">
+      <div class="gallery-item">
+        <img src="wrestlemania-crowd.jpg" alt="WrestleMania 42 — Packed arena with fireworks"
+          onerror="this.src='https://placehold.co/700x400/0a0a0b/f5c842?text=WrestleMania+42+—+Crowd'"/>
+        <div class="gallery-caption">The Crowd — Night Energy</div>
+      </div>
+      <div class="gallery-item">
+        <img src="wrestlemania-stage.jpg" alt="WrestleMania 42 — Entrance ramp and stage"
+          onerror="this.src='https://placehold.co/700x400/0a0a0b/f5c842?text=WrestleMania+42+—+Stage'"/>
+        <div class="gallery-caption">The Stage — Entrance Ramp</div>
+      </div>
+    </div>
+    <p style="font-size:0.75rem; color:var(--muted); margin-top:1rem; text-align:center; letter-spacing:0.08em;">
+      ℹ️ Save Image 1 as <code>wrestlemania-crowd.jpg</code> and Image 2 as <code>wrestlemania-stage.jpg</code> in the same folder as this file.
+    </p>
+  </div>
+
+
+  <!-- ═══ AUTHOR ═══ -->
+  <div class="alt-bg">
+    <div class="section-wrap">
+      <p class="section-eyebrow reveal">05 — Author</p>
+      <h2 class="section-title reveal">About the Creator</h2>
+      <div class="divider reveal"></div>
+      <div class="author-card reveal">
+        <div class="author-avatar">JS</div>
+        <div class="author-info">
+          <p class="author-role">Developer &amp; Author</p>
+          <h3 class="author-name">Jahidul Islam Sakib</h3>
+          <div class="author-links">
+            <a
+              href="https://drive.google.com/file/d/179mccc8ij5amtUgok6ixqolD4zhUIeq8/view?usp=sharing"
+              target="_blank" rel="noopener noreferrer"
+              class="author-link resume"
+            >📄 Resume</a>
+            <a
+              href="https://github.com/jisakib2003-a11y"
+              target="_blank" rel="noopener noreferrer"
+              class="author-link github"
+            >🐙 GitHub</a>
+            <span class="author-link linkedin" title="LinkedIn not available">🔗 LinkedIn</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer>
+    Created by <span>Jahidul Islam Sakib</span> &nbsp;·&nbsp;
+    WrestleMania 42 &nbsp;·&nbsp; Las Vegas 2026 &nbsp;·&nbsp;
+    <span>WWE</span>
+  </footer>
+
+  <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
